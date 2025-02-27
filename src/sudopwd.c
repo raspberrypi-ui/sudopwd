@@ -46,6 +46,7 @@ static GtkWidget *main_dlg, *pwd_entry;
 static void handle_ok (GtkButton *button, gpointer data);
 static void handle_cancel (GtkButton *button, gpointer data);
 static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data);
+static gboolean check_escape (GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
@@ -68,6 +69,16 @@ static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
     return TRUE;
 }
 
+static gboolean check_escape (GtkWidget *widget, GdkEventKey *event, gpointer data)
+{
+    if (event->keyval == GDK_KEY_Escape)
+    {
+        gtk_main_quit();
+        return TRUE;
+    }
+    return FALSE;
+}
+
 int main (int argc, char *argv[])
 {
     GtkBuilder *builder;
@@ -86,6 +97,7 @@ int main (int argc, char *argv[])
 
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_dlg");
     g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
+    g_signal_connect (main_dlg, "key_press_event", G_CALLBACK (check_escape), NULL);
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "cancel_btn");
     g_signal_connect (wid, "clicked", G_CALLBACK (handle_cancel), NULL);
@@ -94,6 +106,7 @@ int main (int argc, char *argv[])
     g_signal_connect (wid, "clicked", G_CALLBACK (handle_ok), NULL);
 
     pwd_entry = (GtkWidget *) gtk_builder_get_object (builder, "pwd_entry");
+    g_signal_connect (pwd_entry, "activate", G_CALLBACK (handle_ok), NULL);
 
     g_object_unref (builder);
 
