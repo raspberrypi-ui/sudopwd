@@ -1,0 +1,13 @@
+Source: sudopwd
+Section: unknown
+Priority: optional
+Maintainer: Simon Long <simon@raspberrypi.com>
+Build-Depends: debhelper-compat (= 13), meson, libgtk-3-dev (>= 3.24), intltool (>= 0.40.0)
+Standards-Version: 4.5.1
+Homepage: http://raspberrypi.com/
+
+Package: sudopwd
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-3-0 (>= 3.24)
+Description: Simple password prompt
+ GTK password prompt application for use with SUDO_ASKPASS
