@@ -43,40 +43,31 @@ static GtkWidget *main_dlg, *pwd_entry;
 /* Function prototypes                                                        */
 /*----------------------------------------------------------------------------*/
 
-static void handle_ok (GtkButton *button, gpointer data);
-static void handle_cancel (GtkButton *button, gpointer data);
+static void handle_ok (GtkWidget *widget, gpointer data);
+static void handle_cancel (GtkWidget *widget, gpointer data);
 static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data);
-static gboolean check_escape (GtkWidget *widget, GdkEventKey *event, gpointer data);
 
 /*----------------------------------------------------------------------------*/
 /* Function definitions                                                       */
 /*----------------------------------------------------------------------------*/
 
-static void handle_ok (GtkButton *button, gpointer data)
+static void handle_ok (GtkWidget *widget, gpointer data)
 {
     printf ("%s\n", gtk_entry_get_text (GTK_ENTRY (pwd_entry)));
     gtk_main_quit ();
 }
 
-static void handle_cancel (GtkButton *button, gpointer data)
+static void handle_cancel (GtkWidget *widget, gpointer data)
 {
     gtk_main_quit ();
 }
 
 static gboolean close_prog (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
+    if (event->type == GDK_KEY_PRESS && ((GdkEventKey *) event)->keyval != GDK_KEY_Escape) return FALSE;
+
     gtk_main_quit ();
     return TRUE;
-}
-
-static gboolean check_escape (GtkWidget *widget, GdkEventKey *event, gpointer data)
-{
-    if (event->keyval == GDK_KEY_Escape)
-    {
-        gtk_main_quit();
-        return TRUE;
-    }
-    return FALSE;
 }
 
 int main (int argc, char *argv[])
@@ -97,7 +88,7 @@ int main (int argc, char *argv[])
 
     main_dlg = (GtkWidget *) gtk_builder_get_object (builder, "main_dlg");
     g_signal_connect (main_dlg, "delete_event", G_CALLBACK (close_prog), NULL);
-    g_signal_connect (main_dlg, "key_press_event", G_CALLBACK (check_escape), NULL);
+    g_signal_connect (main_dlg, "key_press_event", G_CALLBACK (close_prog), NULL);
 
     wid = (GtkWidget *) gtk_builder_get_object (builder, "cancel_btn");
     g_signal_connect (wid, "clicked", G_CALLBACK (handle_cancel), NULL);
