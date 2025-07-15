@@ -1,3 +1,9 @@
+sudopwd (0.2) trixie; urgency=medium
+
+  * Fix dependencies
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 15 Jul 2025 15:54:04 +0100
+
 sudopwd (0.1) bookworm; urgency=medium
 
   * Initial release.

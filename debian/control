@@ -8,6 +8,6 @@ Homepage: http://raspberrypi.com/
 
 Package: sudopwd
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libgtk-3-0 (>= 3.24)
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Simple password prompt
  GTK password prompt application for use with SUDO_ASKPASS
